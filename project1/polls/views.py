@@ -5,6 +5,7 @@ from tkinter import *
 import tkinter as tk
 import tkinter.messagebox
 from django.db import connection
+from MainMenu import *
 
 # Create your views here.
 from django.http import HttpResponse
@@ -14,7 +15,6 @@ def index(request):
 # log in details
 
 def login():
-    global root
     global root2
     root2 = Toplevel(root)
     root2.title("Account Login")
@@ -58,7 +58,14 @@ def logged():
     logged_message.geometry("500x100")
     Label(logged_message, text="Login Successful!... Welcome {} ".format(username_verification.get()), fg="green", font="bold").pack()
     Label(logged_message, text="").pack()
-    Button(logged_message, text="Proceed", bg="blue", fg='white', relief="groove", font=('arial', 12, 'bold'), ).pack()
+    Button(logged_message, text="Proceed", bg="blue", fg='white', relief="groove", font=('arial', 12, 'bold'), command=mainmenuinstance).pack()
+
+def mainmenuinstance():
+    app = AccountsMenu(tk.Tk())
+    app.initialize_user_interface()
+    app.getdata()
+    app.pulldownmenu(root)
+    root.destroy()
 
 def failed():
     global failed_message
