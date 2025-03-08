@@ -74,6 +74,7 @@ WSGI_APPLICATION = 'project1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+# django connection for mysql
 DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.mysql', 
@@ -82,9 +83,16 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
+}
+}
 
-}
-}
+# django connection for sqlite3
+# DATABASES = { 'default': 
+#              { 'ENGINE': 'django.db.backends.sqlite3', 
+#               'NAME': BASE_DIR / "dorsetlogin.db", } 
+# }
+
+# 'NAME': BASE_DIR / "db.sqlite3", } # stops unknown database msg
 
 
 # Password validation

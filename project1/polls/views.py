@@ -7,6 +7,8 @@ import tkinter.messagebox
 from django.db import connection
 from MainMenu import *
 
+import sqlite3 
+
 # Create your views here.
 from django.http import HttpResponse
 def index(request):
@@ -37,7 +39,7 @@ def login():
     Button(root2, text="Login", bg="blue", fg='white', relief="groove", font=('arial', 12, 'bold'),command=login_verification).pack()
     Label(root2, text="")
 
-def login_verification():
+def login_verification(): # using mysql
     username = username_verification.get()
     password = password_verification.get()
     sql = "select * from logins where username = %s and password = %s"
@@ -50,6 +52,27 @@ def login_verification():
             break
     else:
         failed()
+
+# def login_verification(): # using sqllite
+#     username = username_verification.get()
+#     password = password_verification.get()
+#     conn = sqlite3.connect('dorsetlogin.db')
+
+#     cursordb = conn.cursor()
+#     cursordb.execute("SELECT * from logins WHERE \
+#                      name = :username and password = :password", 
+#                      {"username": username, "password": password})
+    
+#     results = cursordb.fetchall()
+#     conn.commit()
+#     conn.close()
+
+#     if results:
+#         for i in results:
+#             logged()
+#             break
+#     else:
+#         failed()
 
 def logged():
     global logged_message

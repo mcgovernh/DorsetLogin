@@ -6,6 +6,10 @@ from tkinter import Menu
 import config # import global variables for form
 from config import database
 
+from CreateAccount import *  # imports everything from CreateAccount file
+
+import sqlite3
+
 class AccountsMenu(tk.Frame):
     def __init__(self, root):
         self.root = root
@@ -25,7 +29,7 @@ class AccountsMenu(tk.Frame):
         ## Edit Pull Down Menu
         new_edit1 = Menu(menu, tearoff=0)
         menu.add_cascade(label='Edit', menu=new_edit1)
-        new_edit1.add_command(label='Create Account', )
+        new_edit1.add_command(label='Create Account', command=login )
         new_edit1.add_command(label='Delete Account', )
         new_edit1.add_command(label='Edit Account', )
         new_edit1.add_command(label='Transfer Funds', )
@@ -67,13 +71,21 @@ class AccountsMenu(tk.Frame):
         self.id = 0
         self.iid = 0
 
-    def getdata(self):
+    def getdata(self): # using mysql
         mydb = database.connect_db()
         my_conn = connection.cursor()
         database.connect_getaccount(my_conn)
         rows = my_conn.fetchall()
         for student in rows:
             self.treeview.insert('', 'end', values=student)
+    
+    # def getdata(self): # using sqllite
+    #     conn = sqlite3.connect('dorsetlogin.db')
+    #     cursordb = conn.cursor()
+    #     data=cursordb.execute('''SELECT * FROM accounts''')
+    #     data = cursordb.fetchall()
+    #     for student in data:
+    #         self.treeview.insert('', 'end', values=student)
 
     def delete_data(self):
         row_id = self.tree.focus()
@@ -99,7 +111,7 @@ class AccountsMenu(tk.Frame):
 
         for i in self.tree.get_children():
             self.tree.delete(i)
-        database.connect_getstudent(my_conn)
+        database.connect_getaccount(my_conn)
         rows = my_conn.fetchall()
         for student in rows:
             self.treeview.insert('', 'end', values=student)
